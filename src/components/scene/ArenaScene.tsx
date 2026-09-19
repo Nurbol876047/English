@@ -2,15 +2,10 @@
 
 import { Canvas, useFrame } from '@react-three/fiber';
 import { CameraControls } from '@react-three/drei';
-import { EffectComposer, Bloom, Vignette, ChromaticAberration } from '@react-three/postprocessing';
-import { BlendFunction } from 'postprocessing';
+import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import { useElementStore } from '@/store/elementStore';
 import { Suspense, useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import WaterEffect from './effects/WaterEffect';
-import FireEffect from './effects/FireEffect';
-import EarthEffect from './effects/EarthEffect';
-import AirEffect from './effects/AirEffect';
 
 const Lights = () => {
   const activeElement = useElementStore((state) => state.activeElement);
@@ -68,8 +63,6 @@ const Lights = () => {
 };
 
 export const ArenaScene = () => {
-  const activeElement = useElementStore((state) => state.activeElement);
-
   return (
     <div className="absolute inset-0">
       {/* Прозрачный фон: под сценой лежит VideoBackdrop */}
@@ -84,22 +77,12 @@ export const ArenaScene = () => {
           <Lights />
           {/* Платформа убрана — сцена стоит прямо на видеофоне; эффекты стихий спавнятся в центре */}
 
-          {/* Effects */}
-          {activeElement === 'water' && <WaterEffect />}
-          {activeElement === 'fire' && <FireEffect />}
-          {activeElement === 'earth' && <EarthEffect />}
-          {(activeElement === 'wind' || activeElement === 'air') && <AirEffect />}
+          {/* 3D-эффекты стихий отключены — вместо них играет фоновое видео (ElementBackdrop) */}
 
           
           <EffectComposer>
             <Bloom luminanceThreshold={1} mipmapBlur intensity={1.5} />
             <Vignette eskil={false} offset={0.1} darkness={1.1} />
-            {(activeElement === 'wind' || activeElement === 'air') && (
-              <ChromaticAberration 
-                blendFunction={BlendFunction.NORMAL} 
-                offset={new THREE.Vector2(0.002, 0.002)} 
-              />
-            )}
           </EffectComposer>
         </Suspense>
 
