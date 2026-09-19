@@ -154,24 +154,7 @@ export const HUD = ({ onElementMastered }: { onElementMastered?: (element: strin
           })}
         </div>
 
-        <button 
-          onClick={toggleListening}
-          className={`
-            relative group flex items-center justify-center w-24 h-24 rounded-full transition-all duration-300
-            ${isListening 
-              ? 'bg-red-500 hover:bg-red-600 shadow-[0_0_30px_rgba(239,68,68,0.6)]' 
-              : 'bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20'}
-          `}
-        >
-          {isListening && (
-            <div className="absolute inset-0 rounded-full border-4 border-red-400 animate-ping opacity-75"></div>
-          )}
-          <Mic size={32} className={isListening ? 'text-white animate-pulse' : 'text-white/70 group-hover:text-white'} />
-        </button>
-        
-        <p className="text-white/60 font-medium tracking-wide">
-          {isListening ? 'Listening...' : 'Tap mic and say an element word'}
-        </p>
+
       </div>
     </div>
   );
