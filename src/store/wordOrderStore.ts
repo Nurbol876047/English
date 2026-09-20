@@ -216,7 +216,7 @@ export const useWordOrderStore = create<WordOrderState>((set, get) => ({
       set({
         ...base,
         tiles: tiles.map((t) => (t.id === tileId ? { ...t, state: 'tray' } : t)),
-        feedback: { kind: 'occupied', text: 'Ячейка уже занята', id: ++feedbackSeq },
+        feedback: { kind: 'occupied', text: 'That slot is already taken', id: ++feedbackSeq },
       });
       return 'occupied';
     }
@@ -232,7 +232,7 @@ export const useWordOrderStore = create<WordOrderState>((set, get) => ({
         streak: 0,
         topicProgress: { ...get().topicProgress, [sentence.topic]: 0 },
         tiles: tiles.map((t) => (t.id === tileId ? { ...t, state: 'error' } : t)),
-        feedback: { kind: 'wrong', text: `«${tile.word}» сюда не подходит`, id: ++feedbackSeq },
+        feedback: { kind: 'wrong', text: `“${tile.word}” doesn’t go here`, id: ++feedbackSeq },
       });
       return 'wrong';
     }
@@ -255,7 +255,7 @@ export const useWordOrderStore = create<WordOrderState>((set, get) => ({
         masteredTopics: Array.from(mastered),
         feedback: {
           kind: 'complete',
-          text: roundCorrect ? 'Отлично! Предложение собрано' : 'Собрано — но были ошибки',
+          text: roundCorrect ? 'Excellent! Sentence complete' : 'Complete — but with some mistakes',
           id: ++feedbackSeq,
         },
       };
@@ -269,7 +269,7 @@ export const useWordOrderStore = create<WordOrderState>((set, get) => ({
         ...get().bursts,
         { id: ++burstSeq, position: slot.position, color: BURST_CORRECT, createdAt: performance.now() },
       ],
-      ...(complete ? {} : { feedback: { kind: 'correct', text: 'Верно!', id: ++feedbackSeq } }),
+      ...(complete ? {} : { feedback: { kind: 'correct', text: 'Correct!', id: ++feedbackSeq } }),
       ...progressPatch,
     });
     return 'correct';

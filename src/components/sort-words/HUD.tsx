@@ -34,11 +34,11 @@ interface Props {
 }
 
 const CAMERA_LABEL: Record<HandTrackingStatus, { text: string; cls: string; Icon: typeof Camera }> = {
-  idle: { text: 'Камера выключена', cls: 'text-white/50', Icon: CameraOff },
-  loading: { text: 'Инициализация…', cls: 'text-amber-300', Icon: Loader2 },
-  tracking: { text: 'Отслеживание активно', cls: 'text-emerald-300', Icon: Hand },
-  'no-hand': { text: 'Покажите руку в кадр', cls: 'text-sky-300', Icon: Camera },
-  unavailable: { text: 'Камера недоступна', cls: 'text-red-300', Icon: CameraOff },
+  idle: { text: 'Camera off', cls: 'text-white/50', Icon: CameraOff },
+  loading: { text: 'Starting up…', cls: 'text-amber-300', Icon: Loader2 },
+  tracking: { text: 'Hand tracking active', cls: 'text-emerald-300', Icon: Hand },
+  'no-hand': { text: 'Show your hand to the camera', cls: 'text-sky-300', Icon: Camera },
+  unavailable: { text: 'Camera unavailable', cls: 'text-red-300', Icon: CameraOff },
 };
 
 const card = 'bg-white/[0.07] backdrop-blur-md rounded-2xl border border-white/15 shadow-xl';
@@ -54,7 +54,7 @@ export function HUD(p: Props) {
       {/* Верх */}
       <div className="flex flex-wrap justify-between items-start gap-2 md:gap-3">
         <div className={`${card} px-3 py-2 md:p-4 pointer-events-auto flex items-center gap-3`}>
-          <Link href="/" className="text-white/50 hover:text-white transition-colors" title="На главную">
+          <Link href="/" className="text-white/50 hover:text-white transition-colors" title="Back to the arena">
             <ArrowLeft size={20} />
           </Link>
           <div>
@@ -97,10 +97,10 @@ export function HUD(p: Props) {
       {p.activeSet && (
         <motion.div key={p.activeSet.id} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="absolute top-44 md:top-28 left-1/2 -translate-x-1/2 text-center max-w-[92vw]">
           <p className="text-white/50 text-xs uppercase tracking-widest">
-            {p.activeSet.level} · {p.activeSet.kind === 'grammar' ? 'grammar' : 'vocabulary'} · освоено {p.masteredCount} / {p.totalSets}
+            {p.activeSet.level} · {p.activeSet.kind === 'grammar' ? 'grammar' : 'vocabulary'} · mastered {p.masteredCount} / {p.totalSets}
           </p>
           <p className="text-white/90 text-base md:text-lg mt-1">
-            Набор: <span className="font-semibold">{p.activeSet.title}</span>
+            Set: <span className="font-semibold">{p.activeSet.title}</span>
             <span className="text-white/50 ml-3">{p.answered} / {p.total}</span>
           </p>
         </motion.div>
@@ -111,19 +111,19 @@ export function HUD(p: Props) {
         <div className="flex items-end gap-3">
           <div className={`${card} px-4 py-3 pointer-events-auto max-w-xs`}>
             {p.showCamera ? (
-              <button onClick={p.onToggleCamera} className={`flex items-center gap-2 text-sm ${cam.cls}`} title="Включить / выключить камеру">
+              <button onClick={p.onToggleCamera} className={`flex items-center gap-2 text-sm ${cam.cls}`} title="Turn the camera on / off">
                 <cam.Icon size={18} className={p.cameraStatus === 'loading' ? 'animate-spin' : ''} />
                 <span>{cam.text}</span>
               </button>
             ) : (
               <span className="flex items-center gap-2 text-sm text-sky-300">
-                <MousePointer2 size={18} /> Режим касаний
+                <MousePointer2 size={18} /> Touch mode
               </span>
             )}
             {p.cameraError && <p className="text-white/50 text-xs mt-1">{p.cameraError}</p>}
             {p.showCamera && !p.cameraError && (
               <p className="text-white/40 text-xs mt-1">
-                {p.controlMode === 'pinch' ? 'Сожмите пальцы, чтобы взять слово, и отпустите над корзиной' : 'Взмахните открытой ладонью влево, вверх или вправо'}
+                {p.controlMode === 'pinch' ? 'Pinch to grab a word and release it over a basket' : 'Swipe an open palm left, up or right'}
               </p>
             )}
             {p.swipeDebug && p.controlMode === 'swipe' && (
@@ -152,12 +152,12 @@ export function HUD(p: Props) {
           <button
             onClick={() => p.onHardMode(!p.hardMode)}
             className={`${card} px-3 py-3 pointer-events-auto flex items-center gap-2 text-sm transition-colors ${p.hardMode ? 'text-red-300 bg-red-500/15' : 'text-white/50 hover:text-white'}`}
-            title="Hard mode: без второго шанса — ошибочное слово улетает в корзину"
+            title="Hard mode: no second chance — a wrong word flies away"
           >
             <Skull size={16} /> Hard
           </button>
           <button onClick={p.onNextSet} className={`${card} px-4 py-3 pointer-events-auto flex items-center gap-2 text-sm text-white/70 hover:text-white hover:bg-white/15 transition-colors whitespace-nowrap`}>
-            <Shuffle size={16} /> Другой набор
+            <Shuffle size={16} /> Another set
           </button>
         </div>
       </div>
@@ -173,23 +173,23 @@ export function HUD(p: Props) {
           >
             <motion.div initial={{ scale: 0.92, y: 12 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0 }} className={`${card} p-8 w-[min(92vw,26rem)] text-center`}>
               <Trophy size={40} className={`mx-auto mb-3 ${p.result.passed ? 'text-yellow-300' : 'text-white/30'}`} />
-              <h2 className="text-2xl font-bold text-white">{p.result.passed ? 'Раунд пройден!' : 'Попробуйте ещё раз'}</h2>
+              <h2 className="text-2xl font-bold text-white">{p.result.passed ? 'Round passed!' : 'Try again'}</h2>
               <p className="text-white/50 text-sm mt-1">{p.activeSet?.title}</p>
               <div className="grid grid-cols-3 gap-3 mt-6 text-white">
-                <div><p className="text-3xl font-bold text-emerald-300">{p.result.correct}</p><p className="text-xs text-white/50">верно</p></div>
-                <div><p className="text-3xl font-bold text-red-300">{p.result.wrong}</p><p className="text-xs text-white/50">ошибки</p></div>
-                <div><p className="text-3xl font-bold text-yellow-300">{p.result.score}</p><p className="text-xs text-white/50">очки</p></div>
+                <div><p className="text-3xl font-bold text-emerald-300">{p.result.correct}</p><p className="text-xs text-white/50">correct</p></div>
+                <div><p className="text-3xl font-bold text-red-300">{p.result.wrong}</p><p className="text-xs text-white/50">wrong</p></div>
+                <div><p className="text-3xl font-bold text-yellow-300">{p.result.score}</p><p className="text-xs text-white/50">score</p></div>
               </div>
               <p className="text-white/40 text-xs mt-4">
-                {(p.result.timeSpentMs / 1000).toFixed(1)} с · режим {p.result.controlMode}
-                {p.bestTimeMs !== null && <> · лучшее время {(p.bestTimeMs / 1000).toFixed(2)} с</>}
+                {(p.result.timeSpentMs / 1000).toFixed(1)} s · mode: {p.result.controlMode}
+                {p.bestTimeMs !== null && <> · best time {(p.bestTimeMs / 1000).toFixed(2)} s</>}
               </p>
               <div className="flex gap-3 mt-6">
                 <button onClick={p.onRestart} className="flex-1 flex items-center justify-center gap-2 bg-white/15 hover:bg-white/25 text-white rounded-xl py-3 transition-colors">
-                  <RotateCcw size={16} /> Ещё раз
+                  <RotateCcw size={16} /> Play again
                 </button>
                 <button onClick={p.onNextSet} className="flex-1 flex items-center justify-center gap-2 bg-sky-500/80 hover:bg-sky-500 text-white rounded-xl py-3 transition-colors">
-                  <Shuffle size={16} /> Другой набор
+                  <Shuffle size={16} /> Another set
                 </button>
               </div>
             </motion.div>

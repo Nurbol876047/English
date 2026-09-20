@@ -294,7 +294,7 @@ export const useSortWordsStore = create<SortWordsState>((set, get) => ({
         streak: s.streak + 1,
         correctCount: s.correctCount + 1,
         bestTimeMs: s.bestTimeMs === null ? reactionMs : Math.min(s.bestTimeMs, reactionMs),
-        feedback: { kind: 'correct', text: bonus ? 'Верно! +15' : 'Верно! +10', id: ++feedbackSeq },
+        feedback: { kind: 'correct', text: bonus ? 'Correct! +15' : 'Correct! +10', id: ++feedbackSeq },
       });
       return 'correct';
     }
@@ -305,7 +305,7 @@ export const useSortWordsStore = create<SortWordsState>((set, get) => ({
       score: Math.max(0, s.score - 5),
       streak: 0,
       wrongCount: s.wrongCount + 1,
-      feedback: { kind: 'wrong' as const, text: `«${word.text}» — это не ${basket.label}${hint}`, id: ++feedbackSeq },
+      feedback: { kind: 'wrong' as const, text: `“${word.text}” is not ${basket.label}${hint}`, id: ++feedbackSeq },
       bursts: [
         ...s.bursts,
         { id: ++burstSeq, position: s.hardMode ? basket.position : WAIT_POINT, color: '#ef4444', createdAt: performance.now() },

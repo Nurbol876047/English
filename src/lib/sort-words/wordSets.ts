@@ -44,6 +44,69 @@ const w = (text: string, category: string, hint?: string): SetWord => ({ text, c
 export const WORD_SETS: readonly WordSet[] = [
   // Все наборы — по вселенной «Аватар: Легенда об Аанге» (стихии, маги, Аппа, Момо,
   // Храм Воздуха, Народ Огня); грамматические категории и уровни — как в обычном курсе.
+  // ── Наборы про сам мир «Аватара»: народы, персонажи, места, стили магии ──
+  {
+    id: 'nations',
+    title: 'Water Tribe · Earth Kingdom · Fire Nation',
+    level: 'A1',
+    kind: 'vocabulary',
+    categories: [c('water', 'Water Tribe', 'sky'), c('earth', 'Earth Kingdom', 'violet'), c('fire', 'Fire Nation', 'emerald')],
+    words: [
+      w('Katara', 'water', 'Katara is a waterbender from the South Pole'), w('Sokka', 'water', 'Sokka is Katara’s brother'), w('Yue', 'water', 'Princess Yue became the Moon Spirit'), w('Pakku', 'water', 'Master Pakku taught Katara waterbending'), w('Hakoda', 'water', 'Hakoda is the chief of the Southern Water Tribe'),
+      w('Toph', 'earth', 'Toph Beifong was born in Gaoling'), w('Bumi', 'earth', 'King Bumi rules Omashu'), w('Suki', 'earth', 'Suki leads the Kyoshi Warriors'), w('Long Feng', 'earth', 'Long Feng controlled the Dai Li in Ba Sing Se'), w('Haru', 'earth', 'Haru is a young earthbender from a mining village'),
+      w('Zuko', 'fire', 'Prince Zuko is the son of Fire Lord Ozai'), w('Azula', 'fire', 'Azula is Zuko’s sister'), w('Iroh', 'fire', 'Uncle Iroh is the Dragon of the West'), w('Ozai', 'fire', 'Ozai is the Fire Lord'), w('Mai', 'fire', 'Mai throws knives and is Zuko’s girlfriend'),
+    ],
+  },
+  {
+    id: 'bending-arts',
+    title: 'Waterbending · Earthbending · Firebending',
+    level: 'A2',
+    kind: 'vocabulary',
+    categories: [c('water', 'Waterbending', 'sky'), c('earth', 'Earthbending', 'violet'), c('fire', 'Firebending', 'emerald')],
+    words: [
+      w('healing', 'water', 'Katara heals wounds with water'), w('ice shield', 'water'), w('water whip', 'water'), w('bloodbending', 'water', 'Hama bends the water inside a body'), w('octopus form', 'water'),
+      w('metalbending', 'earth', 'Toph invented it'), w('seismic sense', 'earth', 'Toph feels vibrations through the ground'), w('rock armor', 'earth'), w('sandbending', 'earth'), w('earth wave', 'earth'),
+      w('lightning', 'fire', 'Azula and Iroh can generate lightning'), w('fire blast', 'fire'), w('breath of fire', 'fire'), w('fire whip', 'fire'), w('combustion', 'fire', 'Combustion Man bends fire with his mind'),
+    ],
+  },
+  {
+    id: 'places',
+    title: 'Air Temples · Earth Kingdom · Fire Nation places',
+    level: 'A2',
+    kind: 'vocabulary',
+    categories: [c('air', 'Air Temples', 'sky'), c('earth', 'Earth Kingdom', 'violet'), c('fire', 'Fire Nation', 'emerald')],
+    words: [
+      w('Southern Air Temple', 'air', 'Aang grew up here'), w('Northern Air Temple', 'air'), w('Eastern Air Temple', 'air', 'Guru Pathik lives here'), w('Western Air Temple', 'air', 'It hangs upside down under a cliff'), w('Patola Mountains', 'air'),
+      w('Ba Sing Se', 'earth', 'The great walled city'), w('Omashu', 'earth', 'King Bumi’s city with mail chutes'), w('Kyoshi Island', 'earth', 'Home of the Kyoshi Warriors'), w('Gaoling', 'earth', 'Toph’s hometown'), w('Si Wong Desert', 'earth'),
+      w('Ember Island', 'fire', 'The royal family’s beach house is here'), w('Boiling Rock', 'fire', 'A prison in a volcano lake'), w('Crescent Island', 'fire', 'Avatar Roku’s temple'), w('Fire Fountain City', 'fire'), w('Royal Palace', 'fire'),
+    ],
+  },
+  {
+    id: 'team-spirits-creatures',
+    title: 'Team Avatar · Spirits · Creatures',
+    level: 'A2',
+    kind: 'vocabulary',
+    categories: [c('team', 'Team Avatar', 'sky'), c('spirits', 'Spirits', 'violet'), c('creatures', 'Creatures', 'emerald')],
+    words: [
+      w('Aang', 'team'), w('Katara', 'team'), w('Sokka', 'team'), w('Toph', 'team'), w('Zuko', 'team', 'Zuko joins Team Avatar in Book Three'),
+      w('Koh', 'spirits', 'The Face Stealer'), w('Wan Shi Tong', 'spirits', 'The owl spirit of the library'), w('Hei Bai', 'spirits', 'The forest spirit that looks like a panda'), w('Tui', 'spirits', 'The Moon Spirit'), w('La', 'spirits', 'The Ocean Spirit'),
+      w('Appa', 'creatures', 'A flying sky bison'), w('Momo', 'creatures', 'A winged lemur'), w('badgermole', 'creatures', 'The first earthbenders'), w('shirshu', 'creatures', 'June’s tracking beast'), w('platypus bear', 'creatures'),
+    ],
+  },
+  {
+    id: 'avatars-masters-villains',
+    title: 'Past Avatars · Masters · Villains',
+    level: 'B1',
+    kind: 'vocabulary',
+    categories: [c('avatars', 'Past Avatars', 'sky'), c('masters', 'Masters', 'violet'), c('villains', 'Villains', 'emerald')],
+    words: [
+      w('Roku', 'avatars', 'The Avatar before Aang, from the Fire Nation'), w('Kyoshi', 'avatars', 'She created Kyoshi Island'), w('Kuruk', 'avatars', 'A Water Tribe Avatar'), w('Yangchen', 'avatars', 'An Air Nomad Avatar'), w('Szeto', 'avatars', 'A Fire Nation Avatar'),
+      w('Gyatso', 'masters', 'Aang’s airbending teacher'), w('Jeong Jeong', 'masters', 'The firebending deserter'), w('Piandao', 'masters', 'He taught Sokka the sword'), w('Pakku', 'masters', 'Northern waterbending master'), w('Guru Pathik', 'masters', 'He taught Aang about chakras'),
+      w('Ozai', 'villains', 'The Fire Lord'), w('Azula', 'villains'), w('Zhao', 'villains', 'The admiral who killed the Moon Spirit'), w('Long Feng', 'villains', 'Leader of the Dai Li'), w('Combustion Man', 'villains'),
+    ],
+  },
+
+  // ── Грамматика и общая лексика — на словах из мира «Аватара» ──
   {
     id: 'parts-of-speech',
     title: 'Parts of speech',

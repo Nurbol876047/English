@@ -25,42 +25,47 @@ export interface Sentence {
   level: CefrLevel;
   topic: GrammarTopic;
   words: readonly string[];
-  /** Перевод — подсказка в HUD */
-  translation: string;
+  /** Подсказка в HUD (по-английски): вопрос или контекст из сцены, на который отвечает предложение */
+  hint: string;
 }
 
 export const SENTENCES: readonly Sentence[] = [
   // Все предложения — по вселенной «Аватар: Легенда об Аанге»: стихии, маги, Аппа, Момо,
-  // Храм Воздуха, Народ Огня. Грамматические темы и уровни — как в обычном курсе.
+  // Храм Воздуха, Народ Огня. Подсказка — по-английски, не выдаёт порядок слов напрямую.
 
   // ── A1 ───────────────────────────────────────────────────────────────
-  { id: 'a1-01', level: 'A1', topic: 'present simple', words: ['Aang', 'loves', 'his', 'sky', 'bison.'], translation: 'Аанг любит своего небесного бизона.' },
-  { id: 'a1-02', level: 'A1', topic: 'present simple', words: ['Katara', 'bends', 'water', 'every', 'day.'], translation: 'Катара покоряет воду каждый день.' },
-  { id: 'a1-03', level: 'A1', topic: 'present continuous', words: ['Appa', 'is', 'flying', 'over', 'the', 'sea.'], translation: 'Аппа летит над морем.' },
-  { id: 'a1-04', level: 'A1', topic: 'questions', words: ['Where', 'is', 'the', 'Avatar?'], translation: 'Где Аватар?' },
-  { id: 'a1-05', level: 'A1', topic: 'modal verbs', words: ['Can', 'Toph', 'see', 'with', 'her', 'feet?'], translation: 'Тоф может видеть ногами?' },
-  { id: 'a1-06', level: 'A1', topic: 'present simple', words: ['Momo', 'eats', 'a', 'moon', 'peach.'], translation: 'Момо ест лунный персик.' },
+  { id: 'a1-01', level: 'A1', topic: 'present simple', words: ['Aang', 'loves', 'his', 'sky', 'bison.'], hint: 'How does Aang feel about Appa?' },
+  { id: 'a1-02', level: 'A1', topic: 'present simple', words: ['Katara', 'bends', 'water', 'every', 'day.'], hint: 'What does Katara practice daily?' },
+  { id: 'a1-03', level: 'A1', topic: 'present continuous', words: ['Appa', 'is', 'flying', 'over', 'the', 'sea.'], hint: 'Where is Appa right now?' },
+  { id: 'a1-04', level: 'A1', topic: 'questions', words: ['Where', 'is', 'the', 'Avatar?'], hint: 'Zuko wants to find the last airbender.' },
+  { id: 'a1-05', level: 'A1', topic: 'modal verbs', words: ['Can', 'Toph', 'see', 'with', 'her', 'feet?'], hint: 'Ask about the blind earthbender’s special sense.' },
+  { id: 'a1-06', level: 'A1', topic: 'present simple', words: ['Momo', 'eats', 'a', 'moon', 'peach.'], hint: 'What is the winged lemur having for lunch?' },
+  { id: 'a1-07', level: 'A1', topic: 'present simple', words: ['Sokka', 'has', 'a', 'boomerang.'], hint: 'What is Sokka’s favorite weapon?' },
+  { id: 'a1-08', level: 'A1', topic: 'present continuous', words: ['Iroh', 'is', 'making', 'jasmine', 'tea.'], hint: 'What is Uncle Iroh doing in the tea shop?' },
 
   // ── A2 ───────────────────────────────────────────────────────────────
-  { id: 'a2-01', level: 'A2', topic: 'past simple', words: ['Zuko', 'chased', 'the', 'Avatar', 'last', 'winter.'], translation: 'Зуко преследовал Аватара прошлой зимой.' },
-  { id: 'a2-02', level: 'A2', topic: 'future simple', words: ['Aang', 'will', 'master', 'all', 'four', 'elements.'], translation: 'Аанг овладеет всеми четырьмя стихиями.' },
-  { id: 'a2-03', level: 'A2', topic: 'comparatives', words: ['Appa', 'is', 'bigger', 'than', 'Momo.'], translation: 'Аппа больше, чем Момо.' },
-  { id: 'a2-04', level: 'A2', topic: 'questions', words: ['When', 'does', 'the', 'Fire', 'Nation', 'attack?'], translation: 'Когда нападает Народ Огня?' },
-  { id: 'a2-05', level: 'A2', topic: 'modal verbs', words: ['You', 'should', 'drink', 'some', 'jasmine', 'tea.'], translation: 'Тебе стоит выпить жасминового чая.' },
+  { id: 'a2-01', level: 'A2', topic: 'past simple', words: ['Zuko', 'chased', 'the', 'Avatar', 'last', 'winter.'], hint: 'What did the banished prince do last winter?' },
+  { id: 'a2-02', level: 'A2', topic: 'future simple', words: ['Aang', 'will', 'master', 'all', 'four', 'elements.'], hint: 'What is the Avatar’s destiny?' },
+  { id: 'a2-03', level: 'A2', topic: 'comparatives', words: ['Appa', 'is', 'bigger', 'than', 'Momo.'], hint: 'Compare the sky bison and the lemur.' },
+  { id: 'a2-04', level: 'A2', topic: 'questions', words: ['When', 'does', 'the', 'Fire', 'Nation', 'attack?'], hint: 'Ask about the day of Sozin’s Comet.' },
+  { id: 'a2-05', level: 'A2', topic: 'modal verbs', words: ['You', 'should', 'drink', 'some', 'jasmine', 'tea.'], hint: 'Uncle Iroh gives Zuko some advice.' },
+  { id: 'a2-06', level: 'A2', topic: 'past simple', words: ['Aang', 'woke', 'up', 'in', 'an', 'iceberg.'], hint: 'Where did Katara and Sokka find the Avatar?' },
+  { id: 'a2-07', level: 'A2', topic: 'future simple', words: ['Sozin’s', 'Comet', 'will', 'return', 'this', 'summer.'], hint: 'Why is the Fire Nation so confident?' },
 
   // ── B1 ───────────────────────────────────────────────────────────────
-  { id: 'b1-01', level: 'B1', topic: 'present perfect', words: ['Aang', 'has', 'never', 'been', 'to', 'Ba', 'Sing', 'Se.'], translation: 'Аанг никогда не был в Ба Синг Се.' },
-  { id: 'b1-02', level: 'B1', topic: 'present perfect', words: ['Katara', 'has', 'just', 'healed', 'his', 'wound.'], translation: 'Катара только что исцелила его рану.' },
-  { id: 'b1-03', level: 'B1', topic: 'conditionals', words: ['If', 'Aang', 'fails,', 'the', 'world', 'will', 'burn.'], translation: 'Если Аанг потерпит неудачу, мир сгорит.' },
-  { id: 'b1-04', level: 'B1', topic: 'passive voice', words: ['The', 'temple', 'was', 'destroyed', 'by', 'the', 'Fire', 'Nation.'], translation: 'Храм был разрушен Народом Огня.' },
-  { id: 'b1-05', level: 'B1', topic: 'reported speech', words: ['Iroh', 'said', 'that', 'tea', 'was', 'important.'], translation: 'Айро сказал, что чай — это важно.' },
+  { id: 'b1-01', level: 'B1', topic: 'present perfect', words: ['Aang', 'has', 'never', 'been', 'to', 'Ba', 'Sing', 'Se.'], hint: 'Has the Avatar visited the great Earth Kingdom city?' },
+  { id: 'b1-02', level: 'B1', topic: 'present perfect', words: ['Katara', 'has', 'just', 'healed', 'his', 'wound.'], hint: 'What did the waterbender do a moment ago?' },
+  { id: 'b1-03', level: 'B1', topic: 'conditionals', words: ['If', 'Aang', 'fails,', 'the', 'world', 'will', 'burn.'], hint: 'What happens if the Avatar loses to the Fire Lord?' },
+  { id: 'b1-04', level: 'B1', topic: 'passive voice', words: ['The', 'temple', 'was', 'destroyed', 'by', 'the', 'Fire', 'Nation.'], hint: 'What happened to the Southern Air Temple? (passive)' },
+  { id: 'b1-05', level: 'B1', topic: 'reported speech', words: ['Iroh', 'said', 'that', 'tea', 'was', 'important.'], hint: 'Report Uncle Iroh’s words: “Tea is important.”' },
+  { id: 'b1-06', level: 'B1', topic: 'present perfect', words: ['Toph', 'has', 'invented', 'metalbending.'], hint: 'What new bending art exists thanks to Toph?' },
 
   // ── B2 ───────────────────────────────────────────────────────────────
-  { id: 'b2-01', level: 'B2', topic: 'conditionals', words: ['If', 'Zuko', 'had', 'listened,', 'he', 'would', 'have', 'stayed.'], translation: 'Если бы Зуко послушал, он бы остался.' },
-  { id: 'b2-02', level: 'B2', topic: 'passive voice', words: ['The', 'city', 'is', 'being', 'defended', 'by', 'earthbenders.'], translation: 'Город защищают маги земли.' },
-  { id: 'b2-03', level: 'B2', topic: 'reported speech', words: ['She', 'asked', 'me', 'where', 'the', 'Avatar', 'was.'], translation: 'Она спросила меня, где Аватар.' },
-  { id: 'b2-04', level: 'B2', topic: 'present perfect', words: ['They', 'have', 'been', 'training', 'since', 'sunrise.'], translation: 'Они тренируются с рассвета.' },
-  { id: 'b2-05', level: 'B2', topic: 'comparatives', words: ['The', 'stronger', 'the', 'bender,', 'the', 'calmer', 'the', 'mind.'], translation: 'Чем сильнее маг, тем спокойнее разум.' },
+  { id: 'b2-01', level: 'B2', topic: 'conditionals', words: ['If', 'Zuko', 'had', 'listened,', 'he', 'would', 'have', 'stayed.'], hint: 'Zuko left Ba Sing Se. Imagine the past differently.' },
+  { id: 'b2-02', level: 'B2', topic: 'passive voice', words: ['The', 'city', 'is', 'being', 'defended', 'by', 'earthbenders.'], hint: 'What is happening at the walls of Ba Sing Se? (passive)' },
+  { id: 'b2-03', level: 'B2', topic: 'reported speech', words: ['She', 'asked', 'me', 'where', 'the', 'Avatar', 'was.'], hint: 'Report Azula’s question: “Where is the Avatar?”' },
+  { id: 'b2-04', level: 'B2', topic: 'present perfect', words: ['They', 'have', 'been', 'training', 'since', 'sunrise.'], hint: 'How long have Aang and Katara been practicing?' },
+  { id: 'b2-05', level: 'B2', topic: 'comparatives', words: ['The', 'stronger', 'the', 'bender,', 'the', 'calmer', 'the', 'mind.'], hint: 'A lesson from the Air Nomads about strength and calm.' },
 ];
 
 /** Все грамматические темы в банке (для счётчика «X/Y тем освоено») */

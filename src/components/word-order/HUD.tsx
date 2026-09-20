@@ -20,11 +20,11 @@ interface Props {
 }
 
 const CAMERA_LABEL: Record<HandTrackingStatus, { text: string; cls: string; Icon: typeof Camera }> = {
-  idle: { text: 'Камера выключена', cls: 'text-white/50', Icon: CameraOff },
-  loading: { text: 'Инициализация…', cls: 'text-amber-300', Icon: Loader2 },
-  tracking: { text: 'Отслеживание активно', cls: 'text-emerald-300', Icon: Hand },
-  'no-hand': { text: 'Покажите руку в кадр', cls: 'text-sky-300', Icon: Camera },
-  unavailable: { text: 'Камера недоступна', cls: 'text-red-300', Icon: CameraOff },
+  idle: { text: 'Camera off', cls: 'text-white/50', Icon: CameraOff },
+  loading: { text: 'Starting up…', cls: 'text-amber-300', Icon: Loader2 },
+  tracking: { text: 'Hand tracking active', cls: 'text-emerald-300', Icon: Hand },
+  'no-hand': { text: 'Show your hand to the camera', cls: 'text-sky-300', Icon: Camera },
+  unavailable: { text: 'Camera unavailable', cls: 'text-red-300', Icon: CameraOff },
 };
 
 const card = 'bg-white/[0.07] backdrop-blur-md rounded-2xl border border-white/15 shadow-xl';
@@ -37,7 +37,7 @@ export function HUD({ sentence, streak, masteredCount, totalTopics, cameraStatus
       {/* Верх */}
       <div className="flex justify-between items-start gap-3">
         <div className={`${card} px-3 py-2 md:p-4 pointer-events-auto flex items-center gap-3`}>
-          <Link href="/" className="text-white/50 hover:text-white transition-colors" title="На главную">
+          <Link href="/" className="text-white/50 hover:text-white transition-colors" title="Back to the arena">
             <ArrowLeft size={20} />
           </Link>
           <div>
@@ -77,7 +77,8 @@ export function HUD({ sentence, streak, masteredCount, totalTopics, cameraStatus
           <p className="text-white/50 text-xs uppercase tracking-widest">
             {sentence.level} · {sentence.topic}
           </p>
-          <p className="text-white/90 text-base md:text-lg mt-1">Соберите предложение: «{sentence.translation}»</p>
+          <p className="text-white/90 text-base md:text-lg mt-1">Put the words in the right order</p>
+          <p className="text-sky-200/80 text-sm md:text-base mt-1 italic">{sentence.hint}</p>
         </motion.div>
       )}
 
@@ -85,21 +86,21 @@ export function HUD({ sentence, streak, masteredCount, totalTopics, cameraStatus
       <div className={`flex items-end gap-3 ${showCamera ? 'mr-48' : ''}`}>
         <div className={`${card} px-4 py-3 pointer-events-auto max-w-xs`}>
           {showCamera ? (
-            <button onClick={onToggleCamera} className={`flex items-center gap-2 text-sm ${cam.cls}`} title="Включить / выключить камеру">
+            <button onClick={onToggleCamera} className={`flex items-center gap-2 text-sm ${cam.cls}`} title="Turn the camera on / off">
               <cam.Icon size={18} className={cameraStatus === 'loading' ? 'animate-spin' : ''} />
               <span>{cam.text}</span>
             </button>
           ) : (
             <span className="flex items-center gap-2 text-sm text-sky-300">
-              <MousePointer2 size={18} /> Режим касаний
+              <MousePointer2 size={18} /> Touch mode
             </span>
           )}
           {cameraError && <p className="text-white/50 text-xs mt-1">{cameraError}</p>}
           {showCamera && cameraStatus === 'tracking' && (
-            <p className="text-white/40 text-xs mt-1">Сожмите большой и указательный палец, чтобы взять слово</p>
+            <p className="text-white/40 text-xs mt-1">Pinch your thumb and index finger to grab a word</p>
           )}
           {showCamera && cameraStatus !== 'tracking' && !cameraError && (
-            <p className="text-white/40 text-xs mt-1">Мышь и тач тоже работают</p>
+            <p className="text-white/40 text-xs mt-1">Mouse and touch work too</p>
           )}
         </div>
 
@@ -107,7 +108,7 @@ export function HUD({ sentence, streak, masteredCount, totalTopics, cameraStatus
           onClick={onSkip}
           className={`${card} px-4 py-3 pointer-events-auto flex items-center gap-2 text-sm text-white/70 hover:text-white hover:bg-white/15 transition-colors whitespace-nowrap`}
         >
-          <SkipForward size={16} /> Другое предложение
+          <SkipForward size={16} /> Another sentence
         </button>
       </div>
     </div>

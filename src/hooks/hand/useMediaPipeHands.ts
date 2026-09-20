@@ -66,10 +66,10 @@ async function loadHandsCtor(): Promise<HandsCtor> {
     script.src = `${MP_CDN}/hands.js`;
     script.crossOrigin = 'anonymous';
     script.onload = () => resolve();
-    script.onerror = () => reject(new Error('Не удалось загрузить MediaPipe Hands с CDN'));
+    script.onerror = () => reject(new Error('Could not load MediaPipe Hands from CDN'));
     document.head.appendChild(script);
   });
-  if (!w.Hands) throw new Error('MediaPipe Hands не инициализировался');
+  if (!w.Hands) throw new Error('MediaPipe Hands failed to initialize');
   return w.Hands;
 }
 
@@ -153,10 +153,10 @@ export function useMediaPipeHands(autoStart = true): HandTracking {
 
     (async () => {
       if (!navigator.mediaDevices?.getUserMedia) {
-        throw new Error('Браузер не поддерживает доступ к камере');
+        throw new Error('This browser does not support camera access');
       }
       const video = videoRef.current;
-      if (!video) throw new Error('Video element не смонтирован');
+      if (!video) throw new Error('Video element is not mounted');
 
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
@@ -214,7 +214,7 @@ export function useMediaPipeHands(autoStart = true): HandTracking {
       if (!alive()) return; // отменённая сессия — не показываем её ошибки
       const msg = e instanceof Error ? e.message : String(e);
       const denied = /NotAllowed|Permission|denied/i.test(msg);
-      setError(denied ? 'Доступ к камере отклонён — используйте мышь или тач' : msg);
+      setError(denied ? 'Camera access denied — use mouse or touch' : msg);
       setStatus('unavailable');
       runningRef.current = false;
       streamRef.current?.getTracks().forEach((t) => t.stop());
