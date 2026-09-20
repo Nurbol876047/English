@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useElementStore } from '@/store/elementStore';
 
 interface Props {
   src: string;
@@ -15,6 +16,9 @@ interface Props {
  */
 export function VideoBackdrop({ src, poster, dim = 0.45 }: Props) {
   const ref = useRef<HTMLVideoElement>(null);
+  const elementVideoPlaying = useElementStore((s) => s.isElementVideoPlaying);
+  // Звук включается только после жеста пользователя (см. ниже) — запоминаем, что он разрешён
+  const soundEnabled = useRef(false);
 
   // Браузер может проигнорировать autoplay (фоновая вкладка, политика автовоспроизведения) —
   // запускаем вручную; muted-видео разрешено играть без жеста пользователя.
@@ -30,6 +34,33 @@ export function VideoBackdrop({ src, poster, dim = 0.45 }: Props) {
       document.removeEventListener('visibilitychange', tryPlay);
     };
   }, [src]);
+
+  // Автовоспроизведение со звуком браузеры запрещают, поэтому стартуем без звука,
+  // а после первого жеста пользователя (клик/тап/клавиша) включаем звук.
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    const unmute = () => {
+      soundEnabled.current = true;
+      v.volume = 0.5;
+      v.muted = useElementStore.getState().isElementVideoPlaying;
+      v.play().catch(() => {});
+    };
+    const opts = { once: true } as const;
+    window.addEventListener('pointerdown', unmute, opts);
+    window.addEventListener('keydown', unmute, opts);
+    return () => {
+      window.removeEventListener('pointerdown', unmute);
+      window.removeEventListener('keydown', unmute);
+    };
+  }, [src]);
+
+  // Пока сверху играет ролик стихии — фон без звука
+  useEffect(() => {
+    const v = ref.current;
+    if (!v || !soundEnabled.current) return;
+    v.muted = elementVideoPlaying;
+  }, [elementVideoPlaying]);
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-black" aria-hidden>

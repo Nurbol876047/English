@@ -57,6 +57,13 @@ export const ElementBackdrop = ({ dim = 0.35 }: Props) => {
     video.play().catch(() => setElement(null));
   }, [src, playKey]);
 
+  // Пока ролик виден, глушим фоновое видео, чтобы две дорожки не звучали одновременно
+  useEffect(() => {
+    const { setIsElementVideoPlaying } = useElementStore.getState();
+    setIsElementVideoPlaying(!!src);
+    return () => setIsElementVideoPlaying(false);
+  }, [src]);
+
   // Заранее подгружаем страницу задания, чтобы переход после ролика был мгновенным
   useEffect(() => {
     const route = element ? ELEMENT_ROUTES[element] : undefined;
@@ -78,7 +85,6 @@ export const ElementBackdrop = ({ dim = 0.35 }: Props) => {
         ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover"
         src={src}
-        muted
         playsInline
         preload="auto"
         disablePictureInPicture
