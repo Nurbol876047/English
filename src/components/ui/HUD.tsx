@@ -1,64 +1,25 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import { useElementStore, type ElementType } from '@/store/elementStore';
 import { useSpeechElementDetector } from '@/hooks/useSpeechElementDetector';
-import { Mic, Droplet, Flame, Mountain, Wind, Volume2, AlertCircle, Hand, ArrowRight, Shuffle } from 'lucide-react';
+import { Droplet, Flame, Mountain, Wind, Volume2, AlertCircle } from 'lucide-react';
 
 export const HUD = ({ onElementMastered }: { onElementMastered?: (element: string) => void }) => {
   const { streak, masteredElements, activeElement } = useElementStore();
   const { error, suggestion, toggleListening, isListening, playExample } = useSpeechElementDetector(onElementMastered);
 
-  const elements: { id: string; icon: React.ReactNode; label: string }[] = [
-    { id: 'water', icon: <Droplet size={24} />, label: 'Water' },
-    { id: 'fire', icon: <Flame size={24} />, label: 'Fire' },
-    { id: 'earth', icon: <Mountain size={24} />, label: 'Earth' },
-    { id: 'wind', icon: <Wind size={24} />, label: 'Wind' },
+  const elements: { id: string; icon: React.ReactNode; label: string; accent: string }[] = [
+    { id: 'water', icon: <Droplet className="w-8 h-8 md:w-10 md:h-10" />, label: 'Water', accent: 'hover:border-sky-300/70 hover:shadow-[0_0_28px_rgba(56,189,248,0.35)]' },
+    { id: 'fire', icon: <Flame className="w-8 h-8 md:w-10 md:h-10" />, label: 'Fire', accent: 'hover:border-orange-300/70 hover:shadow-[0_0_28px_rgba(251,146,60,0.35)]' },
+    { id: 'earth', icon: <Mountain className="w-8 h-8 md:w-10 md:h-10" />, label: 'Earth', accent: 'hover:border-emerald-300/70 hover:shadow-[0_0_28px_rgba(52,211,153,0.35)]' },
+    { id: 'wind', icon: <Wind className="w-8 h-8 md:w-10 md:h-10" />, label: 'Wind', accent: 'hover:border-amber-200/70 hover:shadow-[0_0_28px_rgba(252,211,77,0.35)]' },
   ];
 
   return (
-    <div className="absolute inset-0 pointer-events-none flex flex-col justify-between p-6 z-10">
+    <div className="absolute inset-0 pointer-events-none flex flex-col justify-between p-4 md:p-6 pb-[max(1rem,env(safe-area-inset-bottom))] z-10">
       {/* Top HUD */}
-      <div className="flex justify-between items-start pointer-events-auto">
-        <div className="flex flex-col gap-3">
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 shadow-xl">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 via-orange-400 to-green-400 bg-clip-text text-transparent">
-              Lingova
-            </h1>
-            <p className="text-white/60 text-sm mt-1">Elemental Pronunciation</p>
-          </div>
-
-          {/* Переход к упражнению Word Order — управление жестами руки */}
-          <Link
-            href="/exercises/word-order"
-            className="group bg-white/10 hover:bg-white/15 backdrop-blur-md rounded-2xl p-4 border border-white/20 hover:border-sky-300/50 shadow-xl transition-colors flex items-center gap-3"
-          >
-            <div className="bg-sky-400/20 p-2.5 rounded-xl text-sky-300 group-hover:bg-sky-400/30 transition-colors">
-              <Hand size={22} />
-            </div>
-            <div className="flex-1">
-              <p className="text-white font-semibold text-sm">Word Order — Hand Control</p>
-              <p className="text-white/50 text-xs mt-0.5">Собери предложение жестами руки</p>
-            </div>
-            <ArrowRight size={18} className="text-white/40 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
-          </Link>
-
-          <Link
-            href="/exercises/sort-words"
-            className="group bg-white/10 hover:bg-white/15 backdrop-blur-md rounded-2xl p-4 border border-white/20 hover:border-violet-300/50 shadow-xl transition-colors flex items-center gap-3"
-          >
-            <div className="bg-violet-400/20 p-2.5 rounded-xl text-violet-300 group-hover:bg-violet-400/30 transition-colors">
-              <Shuffle size={22} />
-            </div>
-            <div className="flex-1">
-              <p className="text-white font-semibold text-sm">Sort the Words — Hand Control</p>
-              <p className="text-white/50 text-xs mt-0.5">Раскидай слова по категориям жестами</p>
-            </div>
-            <ArrowRight size={18} className="text-white/40 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
-          </Link>
-        </div>
-
+      <div className="flex justify-end items-start pointer-events-auto">
         <div className="flex gap-4">
           <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 text-right flex flex-col items-end shadow-xl">
             <span className="text-white/60 text-sm uppercase tracking-wider">Streak</span>
@@ -118,15 +79,15 @@ export const HUD = ({ onElementMastered }: { onElementMastered?: (element: strin
         </div>
       )}
 
-      {/* Bottom HUD */}
-      <div className="flex flex-col items-center gap-8 pointer-events-auto mb-10">
-        <div className="flex gap-4">
+      {/* Bottom HUD: кнопки стихий — крупные, на весь ряд, на мобильных прижаты к низу */}
+      <div className="flex flex-col items-center pointer-events-auto mb-2 md:mb-8">
+        <div className="grid grid-cols-4 gap-3 md:gap-5 w-full max-w-sm md:max-w-lg">
           {elements.map((el) => {
             const isMastered = masteredElements.includes(el.id) || (el.id === 'wind' && masteredElements.includes('air'));
             const isActive = activeElement === el.id || (el.id === 'wind' && activeElement === 'air');
-            
+
             return (
-              <button 
+              <button
                 key={el.id}
                 onClick={() => {
                   useElementStore.getState().setActiveElement(el.id as ElementType);
@@ -136,25 +97,22 @@ export const HUD = ({ onElementMastered }: { onElementMastered?: (element: strin
                   setTimeout(() => useElementStore.getState().setActiveElement(null), 8000);
                 }}
                 className={`
-                  w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 hover:scale-105 cursor-pointer
-                  ${isMastered ? 'bg-white/20 border-white/50 shadow-[0_0_15px_rgba(255,255,255,0.3)]' : 'bg-white/5 border-white/10 hover:bg-white/10'}
-                  ${isActive ? 'scale-110 bg-white/30' : 'scale-100'}
-                  backdrop-blur-md border
+                  aspect-square w-full rounded-2xl md:rounded-3xl flex flex-col items-center justify-center gap-1 md:gap-2
+                  transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md border
+                  ${isMastered ? 'bg-white/20 border-white/50 shadow-[0_0_20px_rgba(255,255,255,0.3)]' : 'bg-white/10 border-white/20 hover:bg-white/15'}
+                  ${isActive ? 'scale-110 bg-white/30' : ''}
+                  ${el.accent}
                 `}
                 title={`Manually trigger ${el.label}`}
               >
-                <div className={`
-                  ${isMastered ? 'text-white' : 'text-white/30'}
-                  ${isActive ? 'animate-pulse text-blue-300' : ''}
-                `}>
+                <div className={`${isMastered ? 'text-white' : 'text-white/70'} ${isActive ? 'animate-pulse text-blue-200' : ''}`}>
                   {el.icon}
                 </div>
+                <span className={`text-[11px] md:text-sm font-semibold tracking-wide ${isMastered ? 'text-white' : 'text-white/60'}`}>{el.label}</span>
               </button>
             );
           })}
         </div>
-
-
       </div>
     </div>
   );

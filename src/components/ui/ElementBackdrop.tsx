@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useElementStore } from '@/store/elementStore';
 
 // Полноэкранное видео стихии на заднем плане. Ложится поверх зацикленного
@@ -14,24 +15,36 @@ const ELEMENT_BACKDROPS: Partial<Record<string, string>> = {
   air: '/videos/element-wind-bg.mp4',
 };
 
+// Куда перекидывать сразу после окончания ролика стихии.
+// Стихии без записи здесь просто возвращаются к обычному фону.
+const ELEMENT_ROUTES: Partial<Record<string, string>> = {
+  water: '/exercises/word-order',
+  fire: '/exercises/sort-words',
+  earth: '/exercises/speaking',
+  wind: '/exercises/elemental-match',
+  air: '/exercises/elemental-match',
+};
+
 interface Props {
   /** Затемнение поверх видео, 0..1 — чтобы HUD читался */
   dim?: number;
 }
 
 export const ElementBackdrop = ({ dim = 0.35 }: Props) => {
-  const [src, setSrc] = useState<string | null>(null);
+  const router = useRouter();
+  const [element, setElement] = useState<string | null>(null);
   // Ключ растёт при каждой активации — чтобы повторное нажатие той же стихии перезапускало ролик
   const [playKey, setPlayKey] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const src = element ? ELEMENT_BACKDROPS[element] : undefined;
 
   useEffect(
     () =>
       useElementStore.subscribe((s, prev) => {
         if (s.activeElement === prev.activeElement) return;
-        const next = s.activeElement ? ELEMENT_BACKDROPS[s.activeElement] : undefined;
-        if (!next) return;
-        setSrc(next);
+        if (!s.activeElement || !ELEMENT_BACKDROPS[s.activeElement]) return;
+        setElement(s.activeElement);
         setPlayKey((k) => k + 1);
       }),
     [],
@@ -41,8 +54,20 @@ export const ElementBackdrop = ({ dim = 0.35 }: Props) => {
     const video = videoRef.current;
     if (!video || !src) return;
     video.currentTime = 0;
-    video.play().catch(() => setSrc(null));
+    video.play().catch(() => setElement(null));
   }, [src, playKey]);
+
+  // Заранее подгружаем страницу задания, чтобы переход после ролика был мгновенным
+  useEffect(() => {
+    const route = element ? ELEMENT_ROUTES[element] : undefined;
+    if (route) router.prefetch(route);
+  }, [element, router]);
+
+  const handleEnded = () => {
+    const route = element ? ELEMENT_ROUTES[element] : undefined;
+    setElement(null);
+    if (route) router.push(route);
+  };
 
   if (!src) return null;
 
@@ -57,8 +82,8 @@ export const ElementBackdrop = ({ dim = 0.35 }: Props) => {
         playsInline
         preload="auto"
         disablePictureInPicture
-        onEnded={() => setSrc(null)}
-        onError={() => setSrc(null)}
+        onEnded={handleEnded}
+        onError={() => setElement(null)}
       />
       <div className="absolute inset-0" style={{ background: `rgba(0,0,0,${dim})` }} />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(0,0,0,0.85)_100%)]" />
