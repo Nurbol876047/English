@@ -35,12 +35,12 @@ function modelsToTry(): string[] {
 function buildPrompt(word: string, hint: string | undefined, transcript: string | undefined): string {
   const context = hint ? ` (context: ${hint})` : '';
   const source = transcript
-    ? `You cannot hear the audio. The browser's speech recognizer wrote down: "${transcript}". Recognizers often mangle names, so ACCEPT if this text sounds similar to the target word when read aloud (same or similar consonants and syllable count, e.g. "Cattara" for Katara, "Toff" for Toph, "Arrow" for Iroh). REJECT if the text sounds clearly different from the target (e.g. "I have been here" for airbender, "the car" for Katara).`
+    ? `You cannot hear the audio. The browser's speech recognizer wrote down: "${transcript}". Recognizers often mangle words spoken with an accent, so ACCEPT if this text sounds similar to the target word when read aloud (same or similar consonants and syllable count, e.g. "mutha" for mother, "brekfast" for breakfast, "sun day" for Sunday). REJECT if the text sounds clearly different from the target (e.g. "I have been here" for evening, "the car" for carrot).`
     : 'Listen to the attached audio.';
-  return `You are a friendly, encouraging English pronunciation coach inside a language-learning game about "Avatar: The Last Airbender".
+  return `You are a friendly, encouraging English pronunciation coach inside a language-learning game for 4th-grade children (about 10 years old) whose first language is Kazakh.
 The learner was asked to say ONE word out loud: "${word}"${context}.
 ${source}
-Be lenient and improvisational: ACCEPT if the learner clearly attempted the target word — a foreign accent, a few wrong or missing sounds/letters, wrong stress, a slightly different spelling, or extra filler words around it are all fine. Names and made-up words (Aang, Toph, Appa, Omashu, waterbender…) are hard to recognize, so be generous with them.
+Be lenient and improvisational: ACCEPT if the learner clearly attempted the target word — a foreign accent, a few wrong or missing sounds/letters, wrong stress, a slightly different spelling, or extra filler words around it are all fine. The learners are young beginners, so be generous with them.
 REJECT only if a completely different word was said, or nothing understandable was said.
 Return JSON: heard (a short phrase — what you heard, in English), accept (boolean), tip (if rejected: one short friendly tip on how to say the word, e.g. how to split it into syllables; if accepted: empty string).`;
 }

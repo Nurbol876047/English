@@ -6,8 +6,8 @@ import type { MatchWord } from '@/lib/elemental-match/words';
 import { useElementalMatchStore } from '@/store/elementalMatchStore';
 import { useCountdownTimer } from './useCountdownTimer';
 
-/** Время на ответ */
-export const TIMER_DURATION_MS = 6000;
+/** Время на ответ — надо успеть прочитать предложение */
+export const TIMER_DURATION_MS = 15000;
 /** Раундов в одной сессии */
 export const ROUNDS_PER_SESSION = 10;
 /** Сколько показывать результат раунда перед следующим */

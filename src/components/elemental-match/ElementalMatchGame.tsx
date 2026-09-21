@@ -93,7 +93,7 @@ export function ElementalMatchGame({ onExerciseComplete }: Props) {
             />
           ) : (
             <>
-              <WordCard word={round.word.word} level={round.word.level} roundIndex={round.index} totalRounds={game.totalRounds} />
+              <WordCard word={round.word.word} topic={round.word.topic} roundIndex={round.index} totalRounds={game.totalRounds} />
 
               <div className="mt-5">
                 <TimerBar subscribe={game.subscribeTimer} />
@@ -104,10 +104,10 @@ export function ElementalMatchGame({ onExerciseComplete }: Props) {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2, delay: 0.05 }}
-                className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3"
+                className="mt-6 grid grid-cols-1 gap-3"
               >
                 {round.options.map((opt, i) => (
-                  <OptionButton key={`${round.index}-${i}`} label={opt} state={optionState(i)} disabled={answered} onSelect={() => game.answer(i)} />
+                  <OptionButton key={`${round.index}-${i}`} label={`${'ABC'[i]}) ${opt}`} state={optionState(i)} disabled={answered} onSelect={() => game.answer(i)} />
                 ))}
               </motion.div>
 
@@ -123,7 +123,7 @@ export function ElementalMatchGame({ onExerciseComplete }: Props) {
       {/* Низ */}
       <div className="flex items-end justify-between gap-3">
         <div className={`${card} px-4 py-3 max-w-xs text-xs text-white/50`}>
-          Tap the meaning of the word. You have {Math.round(TIMER_DURATION_MS / 1000)} seconds per word — missed words come back later.
+          Choose the correct answer. You have {Math.round(TIMER_DURATION_MS / 1000)} seconds per question — missed questions come back later.
         </div>
         <div className={`${card} px-4 py-3 text-xs text-white/50 hidden sm:flex items-center gap-2`}>
           <Trophy size={14} className="text-yellow-300/80" /> Mastered {masteredCount} / {WORDS.length}

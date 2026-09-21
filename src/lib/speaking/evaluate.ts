@@ -24,7 +24,7 @@ export function normalize(text: string): string {
 /**
  * Грубая «фонетическая» нормализация: как слово звучит, а не как пишется.
  * ph→f, ck/c/q→k, двойные буквы схлопываем, немая e на конце и т.п.
- * Так "Toff" ≈ "Toph", "Cattara" ≈ "Katara", "Zucco" ≈ "Zuko".
+ * Так "mutha" ≈ "mother", "brekfast" ≈ "breakfast", "teef" ≈ "teeth".
  */
 export function phonetic(word: string): string {
   return normalize(word)

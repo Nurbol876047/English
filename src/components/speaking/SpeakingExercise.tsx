@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, CheckCircle2, Flame, Keyboard, Loader2, Mic, MicOff, SkipForward, Sparkles, Trophy, Volume2, XCircle } from 'lucide-react';
-import { WORDS, NATION_LABEL, pickRandomWord, type SpeakingWord, type Nation } from '@/lib/speaking/words';
+import { WORDS, TOPIC_LABEL, pickRandomWord, type SpeakingWord, type Topic } from '@/lib/speaking/words';
 import { judgeAudio, judgeText, judgeTextLocal, type Verdict } from '@/lib/speaking/judge';
 import { useSpeechRecognition, type MicStatus } from '@/hooks/speaking/useSpeechRecognition';
 import { useSpeaker } from '@/hooks/speaking/useSpeaker';
@@ -23,12 +23,12 @@ interface Props {
 
 const card = 'bg-white/[0.07] backdrop-blur-md rounded-2xl border border-white/15 shadow-xl';
 
-const NATION_STYLE: Record<Nation, { badge: string; ring: string; glyph: string }> = {
-  water: { badge: 'bg-sky-400/20 text-sky-200 border-sky-300/40', ring: 'from-sky-400/60 to-blue-600/40', glyph: '💧' },
-  earth: { badge: 'bg-emerald-400/20 text-emerald-200 border-emerald-300/40', ring: 'from-emerald-400/60 to-green-700/40', glyph: '⛰️' },
-  fire: { badge: 'bg-orange-400/20 text-orange-200 border-orange-300/40', ring: 'from-orange-400/60 to-red-600/40', glyph: '🔥' },
-  air: { badge: 'bg-amber-300/20 text-amber-100 border-amber-200/40', ring: 'from-amber-300/60 to-yellow-600/40', glyph: '🌪️' },
-  all: { badge: 'bg-violet-400/20 text-violet-200 border-violet-300/40', ring: 'from-violet-400/60 to-fuchsia-600/40', glyph: '☯️' },
+const TOPIC_STYLE: Record<Topic, { badge: string; ring: string; glyph: string }> = {
+  grammar: { badge: 'bg-violet-400/20 text-violet-200 border-violet-300/40', ring: 'from-violet-400/60 to-fuchsia-600/40', glyph: '✏️' },
+  routine: { badge: 'bg-sky-400/20 text-sky-200 border-sky-300/40', ring: 'from-sky-400/60 to-blue-600/40', glyph: '⏰' },
+  days: { badge: 'bg-amber-300/20 text-amber-100 border-amber-200/40', ring: 'from-amber-300/60 to-yellow-600/40', glyph: '📅' },
+  family: { badge: 'bg-emerald-400/20 text-emerald-200 border-emerald-300/40', ring: 'from-emerald-400/60 to-green-700/40', glyph: '👨‍👩‍👧' },
+  food: { badge: 'bg-orange-400/20 text-orange-200 border-orange-300/40', ring: 'from-orange-400/60 to-red-600/40', glyph: '🍎' },
 };
 
 const MIC_LABEL: Record<MicStatus, { text: string; cls: string }> = {
@@ -122,7 +122,7 @@ export function SpeakingExercise({ onExerciseComplete }: Props) {
     setTyped('');
   };
 
-  const style = NATION_STYLE[entry.nation];
+  const style = TOPIC_STYLE[entry.topic];
   const speakerBusy = speaker.status === 'loading-model' || speaker.status === 'synthesizing';
 
   const next = () => {
@@ -207,8 +207,9 @@ export function SpeakingExercise({ onExerciseComplete }: Props) {
                 <span className="text-xs text-sky-300">Loading voice… {Math.round(speaker.progress * 100)}%</span>
               )}
               {speaker.status === 'synthesizing' && <span className="text-xs text-sky-300">Preparing audio…</span>}
-              <span className={`text-xs px-3 py-1 rounded-full border ${style.badge}`}>{NATION_LABEL[entry.nation]}</span>
-              <p className="text-white/70 text-base leading-relaxed max-w-md">{entry.hint}</p>
+              <p className="text-white/90 text-xl font-medium">{entry.translation}</p>
+              <span className={`text-xs px-3 py-1 rounded-full border ${style.badge}`}>{TOPIC_LABEL[entry.topic]}</span>
+              <p className="text-white/60 text-base leading-relaxed max-w-md italic">{entry.hint}</p>
             </div>
 
             {/* Микрофон */}

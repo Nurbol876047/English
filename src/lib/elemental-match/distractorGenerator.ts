@@ -1,6 +1,6 @@
 import { WORDS, type MatchWord } from './words';
 
-export const OPTIONS_PER_ROUND = 4;
+export const OPTIONS_PER_ROUND = 3;
 
 export function shuffle<T>(items: readonly T[], random: () => number = Math.random): T[] {
   const a = [...items];
@@ -12,20 +12,18 @@ export function shuffle<T>(items: readonly T[], random: () => number = Math.rand
 }
 
 /**
- * Дистракторы к слову: сначала — вручную проверенные из банка (они похожи
- * по смыслу/форме и заведомо не синонимы). Если их меньше нужного —
- * добираем правильными ответами ДРУГИХ слов того же уровня: это реальные
- * значения других слов, поэтому семантически с целью они не совпадают.
- * Ничего не генерируем автоматически.
+ * Дистракторы к вопросу: сначала — из методички (у каждого вопроса их ровно
+ * два, поэтому обычно этого хватает). Если вдруг меньше нужного — добираем
+ * правильными ответами ДРУГИХ вопросов той же темы. Ничего не генерируем.
  */
 export function pickDistractors(word: MatchWord, count = OPTIONS_PER_ROUND - 1, random: () => number = Math.random): string[] {
   const own = shuffle(word.distractors, random).slice(0, count);
   if (own.length >= count) return own;
 
   const taken = new Set([word.correctAnswer, ...own]);
-  const sameLevel = WORDS.filter((w) => w.id !== word.id && w.level === word.level && !taken.has(w.correctAnswer));
-  const anyLevel = WORDS.filter((w) => w.id !== word.id && !taken.has(w.correctAnswer));
-  const pool = sameLevel.length >= count - own.length ? sameLevel : anyLevel;
+  const sameTopic = WORDS.filter((w) => w.id !== word.id && w.topic === word.topic && !taken.has(w.correctAnswer));
+  const anyTopic = WORDS.filter((w) => w.id !== word.id && !taken.has(w.correctAnswer));
+  const pool = sameTopic.length >= count - own.length ? sameTopic : anyTopic;
   const extra = shuffle(pool, random)
     .map((w) => w.correctAnswer)
     .filter((a, i, arr) => arr.indexOf(a) === i)
@@ -45,9 +43,9 @@ export function buildOptions(word: MatchWord, random: () => number = Math.random
 }
 
 /**
- * Выбор следующего слова: взвешенный случайный выбор — проваленные слова
+ * Выбор следующего вопроса: взвешенный случайный выбор — проваленные вопросы
  * выпадают чаще (лёгкий spaced repetition), но не сразу: последние
- * показанные исключаем, чтобы слово не вернулось в следующем же раунде.
+ * показанные исключаем, чтобы вопрос не вернулся в следующем же раунде.
  */
 export function pickNextWord(
   failCounts: Readonly<Record<string, number>>,

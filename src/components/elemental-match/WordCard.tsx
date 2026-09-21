@@ -1,17 +1,17 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import type { CefrLevel } from '@/lib/elemental-match/words';
+import type { Topic } from '@/lib/elemental-match/words';
 
 interface Props {
   word: string;
-  level: CefrLevel;
+  topic: Topic;
   roundIndex: number;
   totalRounds: number;
 }
 
-/** Текущее слово — крупно по центру, fade+scale при смене */
-export function WordCard({ word, level, roundIndex, totalRounds }: Props) {
+/** Текущий вопрос — крупно по центру, fade+scale при смене */
+export function WordCard({ word, topic, roundIndex, totalRounds }: Props) {
   return (
     <motion.div
       key={word}
@@ -21,10 +21,10 @@ export function WordCard({ word, level, roundIndex, totalRounds }: Props) {
       className="text-center"
     >
       <p className="text-white/45 text-xs uppercase tracking-widest">
-        Round {roundIndex + 1} / {totalRounds} · {level}
+        Round {roundIndex + 1} / {totalRounds} · {topic}
       </p>
-      <h2 className="mt-3 text-5xl md:text-6xl font-bold text-white tracking-wide break-words">{word}</h2>
-      <p className="mt-3 text-white/55 text-sm">Pick the meaning before time runs out</p>
+      <h2 className="mt-3 text-2xl md:text-4xl font-bold text-white leading-snug break-words">{word}</h2>
+      <p className="mt-3 text-white/55 text-sm">Choose the correct answer</p>
     </motion.div>
   );
 }

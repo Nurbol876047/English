@@ -97,7 +97,7 @@ export function HUD(p: Props) {
       {p.activeSet && (
         <motion.div key={p.activeSet.id} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="absolute top-44 md:top-28 left-1/2 -translate-x-1/2 text-center max-w-[92vw]">
           <p className="text-white/50 text-xs uppercase tracking-widest">
-            {p.activeSet.level} · {p.activeSet.kind === 'grammar' ? 'grammar' : 'vocabulary'} · mastered {p.masteredCount} / {p.totalSets}
+            {p.activeSet.kind === 'grammar' ? 'grammar' : 'vocabulary'} · mastered {p.masteredCount} / {p.totalSets}
           </p>
           <p className="text-white/90 text-base md:text-lg mt-1">
             Set: <span className="font-semibold">{p.activeSet.title}</span>

@@ -1,61 +1,77 @@
 /**
- * Банк слов для «Elemental Match» — quiz на скорость: слово → правильное
- * значение (короткий синоним/определение по-английски) + вручную подобранные
- * дистракторы, похожие по смыслу или по форме. Лексика — из мира «Аватара»
- * (стихии, честь, равновесие, странствия), уровни — как в обычном курсе.
+ * Банк вопросов для «Elemental Match» — quiz «Choose the correct answer»
+ * для 4 класса. Пять тем + смешанный тест; в каждом вопросе — предложение
+ * с пропуском (или простой вопрос), один верный ответ и два неверных.
+ * Вопросы и варианты — ровно как в методичке, ничего не генерируем.
  */
 
-export type CefrLevel = 'A1' | 'A2' | 'B1' | 'B2';
+export type Topic = 'Present Simple' | 'My Daily Routine' | 'Days of the Week' | 'My Family and Friends' | 'Food' | 'Mixed Test';
 
 export interface MatchWord {
   id: string;
+  /** Текст задания: предложение с пропуском «___» или вопрос */
   word: string;
   correctAnswer: string;
-  /** Проверенные вручную неверные варианты — не синонимы правильного ответа */
+  /** Ровно два неверных варианта — из методички */
   distractors: readonly string[];
-  level: CefrLevel;
+  topic: Topic;
 }
 
+const q = (id: string, topic: Topic, word: string, correctAnswer: string, ...distractors: string[]): MatchWord => ({
+  id,
+  topic,
+  word,
+  correctAnswer,
+  distractors,
+});
+
 export const WORDS: readonly MatchWord[] = [
-  // ── A1 ──
-  { id: 'brave', word: 'brave', correctAnswer: 'not afraid', distractors: ['very tired', 'angry', 'quiet'], level: 'A1' },
-  { id: 'calm', word: 'calm', correctAnswer: 'quiet and relaxed', distractors: ['very fast', 'loud', 'cold'], level: 'A1' },
-  { id: 'wise', word: 'wise', correctAnswer: 'having good judgment', distractors: ['very old', 'rich', 'wide'], level: 'A1' },
-  { id: 'glide', word: 'glide', correctAnswer: 'move smoothly through the air', distractors: ['fall down', 'run fast', 'shout'], level: 'A1' },
-  { id: 'gentle', word: 'gentle', correctAnswer: 'kind and soft', distractors: ['strong and hard', 'general', 'strict'], level: 'A1' },
-  { id: 'journey', word: 'journey', correctAnswer: 'a long trip', distractors: ['a short nap', 'a big meal', 'a diary'], level: 'A1' },
-  { id: 'enemy', word: 'enemy', correctAnswer: 'someone who fights against you', distractors: ['a close friend', 'a teacher', 'energy'], level: 'A1' },
+  // ── 1. Present Simple ──
+  q('ps-1', 'Present Simple', 'I ___ to school every day.', 'go', 'goes', 'going'),
+  q('ps-2', 'Present Simple', 'She ___ English at school.', 'studies', 'study', 'studying'),
+  q('ps-3', 'Present Simple', 'They ___ football after school.', 'play', 'plays', 'playing'),
+  q('ps-4', 'Present Simple', 'He ___ milk every morning.', 'drinks', 'drink', 'drinking'),
+  q('ps-5', 'Present Simple', 'We ___ TV in the evening.', 'watch', 'watches', 'watching'),
 
-  // ── A2 ──
-  { id: 'ancient', word: 'ancient', correctAnswer: 'very old', distractors: ['very new', 'very small', 'angry'], level: 'A2' },
-  { id: 'fierce', word: 'fierce', correctAnswer: 'wild and violent', distractors: ['gentle and kind', 'fair', 'fast'], level: 'A2' },
-  { id: 'mighty', word: 'mighty', correctAnswer: 'very strong', distractors: ['very weak', 'maybe', 'tiny'], level: 'A2' },
-  { id: 'wisdom', word: 'wisdom', correctAnswer: 'deep knowledge and good judgment', distractors: ['a wish', 'a kingdom', 'great speed'], level: 'A2' },
-  { id: 'honor', word: 'honor', correctAnswer: 'respect and good reputation', distractors: ['a horn', 'hunger', 'a large house'], level: 'A2' },
-  { id: 'balance', word: 'balance', correctAnswer: 'a state where all sides are equal', distractors: ['a big ball', 'a dance', 'a fight'], level: 'A2' },
-  { id: 'wander', word: 'wander', correctAnswer: 'walk around without a clear goal', distractors: ['wonder about something', 'sleep deeply', 'build a wall'], level: 'A2' },
-  { id: 'loyal', word: 'loyal', correctAnswer: 'always supporting someone', distractors: ['royal', 'lonely', 'lazy'], level: 'A2' },
-  { id: 'courage', word: 'courage', correctAnswer: 'bravery', distractors: ['a garage', 'anger', 'a message'], level: 'A2' },
-  { id: 'vanish', word: 'vanish', correctAnswer: 'disappear suddenly', distractors: ['appear', 'polish', 'punish'], level: 'A2' },
+  // ── 2. My Daily Routine ──
+  q('dr-1', 'My Daily Routine', 'I ___ up at 7 o’clock.', 'get', 'gets', 'getting'),
+  q('dr-2', 'My Daily Routine', 'I brush my ___.', 'teeth', 'school', 'breakfast'),
+  q('dr-3', 'My Daily Routine', 'I have breakfast in the ___.', 'morning', 'night', 'afternoon'),
+  q('dr-4', 'My Daily Routine', 'I go to school at ___ o’clock.', 'seven', 'twelve', 'ten'),
+  q('dr-5', 'My Daily Routine', 'I go to bed in the ___.', 'evening', 'morning', 'afternoon'),
 
-  // ── B1 ──
-  { id: 'banish', word: 'banish', correctAnswer: 'send someone away as a punishment', distractors: ['welcome home', 'vanish', 'forgive'], level: 'B1' },
-  { id: 'destiny', word: 'destiny', correctAnswer: 'what will happen to you in the future', distractors: ['a destination', 'a dynasty', 'density'], level: 'B1' },
-  { id: 'harmony', word: 'harmony', correctAnswer: 'peaceful agreement', distractors: ['harm', 'a ceremony', 'a melody only'], level: 'B1' },
-  { id: 'betray', word: 'betray', correctAnswer: 'be disloyal to someone who trusts you', distractors: ['protect', 'portray', 'delay'], level: 'B1' },
-  { id: 'fragile', word: 'fragile', correctAnswer: 'easily broken', distractors: ['very strong', 'fragrant', 'flexible'], level: 'B1' },
-  { id: 'reckless', word: 'reckless', correctAnswer: 'not caring about danger', distractors: ['careful', 'restless', 'wrecked'], level: 'B1' },
-  { id: 'humble', word: 'humble', correctAnswer: 'not proud', distractors: ['arrogant', 'a bumble bee', 'hungry'], level: 'B1' },
-  { id: 'restore', word: 'restore', correctAnswer: 'bring back to the original state', distractors: ['destroy', 'a store', 'ignore'], level: 'B1' },
-  { id: 'conquer', word: 'conquer', correctAnswer: 'take control by force', distractors: ['surrender', 'concur', 'question'], level: 'B1' },
+  // ── 3. Days of the Week ──
+  q('dw-1', 'Days of the Week', 'What day comes after Monday?', 'Tuesday', 'Sunday', 'Friday'),
+  q('dw-2', 'Days of the Week', 'What day comes after Wednesday?', 'Thursday', 'Monday', 'Saturday'),
+  q('dw-3', 'Days of the Week', 'What day comes before Friday?', 'Thursday', 'Sunday', 'Saturday'),
+  q('dw-4', 'Days of the Week', 'The first day of the school week is usually ___.', 'Monday', 'Saturday', 'Sunday'),
+  q('dw-5', 'Days of the Week', 'What day comes after Saturday?', 'Sunday', 'Friday', 'Monday'),
 
-  // ── B2 ──
-  { id: 'resilient', word: 'resilient', correctAnswer: 'able to recover quickly', distractors: ['easily hurt', 'resident', 'reluctant'], level: 'B2' },
-  { id: 'serene', word: 'serene', correctAnswer: 'calm and peaceful', distractors: ['severe', 'a siren', 'anxious'], level: 'B2' },
-  { id: 'fury', word: 'fury', correctAnswer: 'extreme anger', distractors: ['fur', 'a jury', 'deep joy'], level: 'B2' },
-  { id: 'exile', word: 'exile', correctAnswer: 'being forced to live away from home', distractors: ['an exit', 'an example', 'a celebration'], level: 'B2' },
-  { id: 'tyrant', word: 'tyrant', correctAnswer: 'a cruel ruler', distractors: ['a tired giant', 'a kind king', 'a tire'], level: 'B2' },
-  { id: 'redeem', word: 'redeem', correctAnswer: 'make up for past mistakes', distractors: ['redo homework', 'refuse', 'dream again'], level: 'B2' },
+  // ── 4. My Family and Friends ──
+  q('ff-1', 'My Family and Friends', 'My mother’s daughter is my ___.', 'sister', 'brother', 'father'),
+  q('ff-2', 'My Family and Friends', 'My father’s son is my ___.', 'brother', 'mother', 'grandmother'),
+  q('ff-3', 'My Family and Friends', 'My mother’s husband is my ___.', 'father', 'uncle', 'brother'),
+  q('ff-4', 'My Family and Friends', 'My father’s mother is my ___.', 'grandmother', 'sister', 'aunt'),
+  q('ff-5', 'My Family and Friends', 'A person I like and play with is my ___.', 'friend', 'teacher', 'father'),
+
+  // ── 5. Food ──
+  q('fd-1', 'Food', 'I like ___.', 'pizza', 'water', 'juice'),
+  q('fd-2', 'Food', 'We drink ___.', 'milk', 'bread', 'cheese'),
+  q('fd-3', 'Food', 'An apple is a ___.', 'fruit', 'drink', 'vegetable'),
+  q('fd-4', 'Food', 'A carrot is a ___.', 'vegetable', 'fruit', 'drink'),
+  q('fd-5', 'Food', 'We eat soup with a ___.', 'spoon', 'pencil', 'book'),
+
+  // ── ⭐ Mixed Test ──
+  q('mx-1', 'Mixed Test', 'She ___ to school every day.', 'goes', 'go', 'going'),
+  q('mx-2', 'Mixed Test', 'What day comes after Friday?', 'Saturday', 'Sunday', 'Thursday'),
+  q('mx-3', 'Mixed Test', 'I brush my ___ every morning.', 'teeth', 'school', 'milk'),
+  q('mx-4', 'Mixed Test', 'My father’s daughter is my ___.', 'sister', 'brother', 'uncle'),
+  q('mx-5', 'Mixed Test', 'Bananas are ___.', 'fruit', 'drinks', 'vegetables'),
+  q('mx-6', 'Mixed Test', 'We ___ breakfast in the morning.', 'have', 'has', 'having'),
+  q('mx-7', 'Mixed Test', 'He ___ football on Sunday.', 'plays', 'play', 'playing'),
+  q('mx-8', 'Mixed Test', 'What day comes before Monday?', 'Sunday', 'Friday', 'Saturday'),
+  q('mx-9', 'Mixed Test', 'We drink ___.', 'juice', 'rice', 'bread'),
+  q('mx-10', 'Mixed Test', 'My mother’s husband is my ___.', 'father', 'brother', 'uncle'),
 ];
 
 export const WORD_BY_ID: ReadonlyMap<string, MatchWord> = new Map(WORDS.map((w) => [w.id, w]));

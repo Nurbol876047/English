@@ -75,7 +75,7 @@ export function HUD({ sentence, streak, masteredCount, totalTopics, cameraStatus
           className="absolute top-36 md:top-28 left-1/2 -translate-x-1/2 text-center max-w-[92vw]"
         >
           <p className="text-white/50 text-xs uppercase tracking-widest">
-            {sentence.level} · {sentence.topic}
+            {sentence.topic}
           </p>
           <p className="text-white/90 text-base md:text-lg mt-1">Put the words in the right order</p>
           <p className="text-sky-200/80 text-sm md:text-base mt-1 italic">{sentence.hint}</p>
